@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,12 +55,15 @@ public class HomeworkServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
+        List<String> parametersList = Collections.list(req.getParameterNames());
+        for (String parameterName : parametersList) {
+            String[] valuesAsArray = req.getParameterValues(parameterName);
 
-        out.println(Arrays.toString(req.getParameterValues("parameter1")));
-        out.println(req.getParameter("parameter2"));
-        out.println(req.getParameter("parameter3"));
-
+            Arrays.stream(valuesAsArray)
+                    .forEach(v -> out.println(v));
+        }
     }
-
 }
+
+
 
